@@ -13,20 +13,29 @@ import linkedinSVG from './logos/linkedinSVG.svg'
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '', loading: false};
+    this.state = { value: '', loading: false, valid: true };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    const regexp = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+    const url = event.target.value
+    if (regexp.test(url)) {
+      this.setState({ value: event.target.value, valid: true });
+    } else {
+      this.setState({ value: event.target.value, valid: false });
+
+    }
   }
 
   handleSubmit(event) {
-
     event.preventDefault();
-    console.log('btn')
+    if(this.state.valid===false){
+      alert('Enter correct URL') 
+      return;
+    }
     this.setState({
       loading: true
     })
@@ -46,7 +55,7 @@ class App extends React.Component {
       link.href = window.URL.createObjectURL(blob)
       link.download = `file.pdf`
       link.click()
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
       this.setState({
         loading: false
@@ -56,7 +65,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {(this.state.loading? <Loader />:'')}
+        {(this.state.loading ? <Loader /> : '')}
         <div className="form-div">
           <div className="logo-wrapper">
             <img alt="logo" className="logo" src={webSVG} />
@@ -74,8 +83,8 @@ class App extends React.Component {
             </div>
           </form>
           <div className="logo-wrapper-2">
-            <a href="https://github.com/arnabsen1729"><img alt="logo" className="logo" src={githubSVG}/></a>
-            <a href="https://www.linkedin.com/in/arnab-sen-b6950a194/"><img alt="logo" className="logo" src={linkedinSVG}/></a>
+            <a href="https://github.com/arnabsen1729"><img alt="logo" className="logo" src={githubSVG} /></a>
+            <a href="https://www.linkedin.com/in/arnab-sen-b6950a194/"><img alt="logo" className="logo" src={linkedinSVG} /></a>
           </div>
         </div>
       </div>

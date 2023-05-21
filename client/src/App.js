@@ -46,7 +46,7 @@ class App extends React.Component {
         });
         const pageLink = encodeURI(this.state.value);
         const resp = axios.get(
-            `https://w2p-backend.herokuapp.com/api/?url=${pageLink}`,
+            `https://website-to-pdf.onrender.com/api/?url=${pageLink}`,
             {
                 responseType: 'arraybuffer',
                 headers: {
